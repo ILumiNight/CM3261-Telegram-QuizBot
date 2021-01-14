@@ -13,7 +13,7 @@ def main():
         config = json.load(f)
 
     # Make a bot
-    updater = Updater(config['token'])
+    updater = Updater(config['token’], use_context = True)
     
     # Load data into the bot to be accessed later on.
     updater.dispatcher.bot_data['quiz'] = config['quiz']
