@@ -23,6 +23,14 @@ def send_question(data):
     question = random.choice(choices)
     solution = context.bot_data['quiz'][context.chat_data['topic']][question]
 
+    # Add helper blanks to question
+    question += "\n"
+    for char in solution:
+        if char != " ":
+            question += "_ "
+        else:
+            question += "   "
+
     context.chat_data['question'] = question
     context.chat_data['solution'] = solution
     context.chat_data['display_solution'] = solution
@@ -86,8 +94,9 @@ def end_quiz(context: CallbackContext):
     chat_id = context.job.context['chat_id']
 
     # Display scores
-    context.bot.send_message(chat_id, f'No more questions! Here are the scores!')
-    temp = "```\n"
+    context.bot.send_message(chat_id, f'No more questions!')
+    temp = "Here are the scores!\n"
+    temp += "```\n"
     for id, tag in data['context'].chat_data['user'].items():
         key = tag['name']
         value = tag['points']
